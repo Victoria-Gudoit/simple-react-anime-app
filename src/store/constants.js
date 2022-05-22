@@ -6,7 +6,7 @@ export const LOAD_STATUSES = {
 };
 
 export const ITEMS_ACTIONS = {
-  fetchStart: "fetchStart",
-  fetchSuccess: "fetchSuccess",
-  fetchError: "fetchError",
+  fetchStart: "items/fetchStart",
+  fetchSuccess: "items/fetchSuccess",
+  fetchError: "items/fetchError",
 };

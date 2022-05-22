@@ -1,26 +1,29 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ItemsSelectors } from "../../store";
+import { useEffect, useState } from "react";
 import { CardItem } from "./CardItem";
+import { getAnimeById } from "../../api/items";
+
 
 export const Item = () => {
-  const { id } = useParams();
+  const {id} = useParams()
 
-  const GetTaskById = (id) => {
-    const item = useSelector((state) => ItemsSelectors.getTaskById(id)(state));
-    return item;
-  };
+  const [data, setData] = useState({})
 
-  const card = GetTaskById(id);
+  useEffect(() => {
+    getAnimeById( id).then(({data}) => {
+    setData(data)
+  })
+}, [])
 
-  if (!card) {
+
+  if (!data) {
     return <div>Вельмi шкада, але сёння не ваш дзень :(</div>;
   } else {
     return (
       <div>
         <div>
-          <CardItem {...card} />
+          <CardItem {...data}/>
         </div>
       </div>
     );

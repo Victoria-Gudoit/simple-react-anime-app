@@ -1,4 +1,4 @@
-import { LOAD_STATUSES, ITEMS_ACTIONS} from "./constants";
+import { LOAD_STATUSES, ITEMS_ACTIONS } from "./constants";
 import { combineReducers } from "redux";
 
 const INITIAL_ITEMS_STATE = {
@@ -30,4 +30,4 @@ const itemsReducer = (state = INITIAL_ITEMS_STATE, action) => {
   }
 };
 
-export const rootReducer = combineReducers({ itemsReducer });
+export const rootReducer = combineReducers({ items: itemsReducer});

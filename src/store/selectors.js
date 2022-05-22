@@ -1,7 +1,7 @@
 import { LOAD_STATUSES } from "./constants.js";
 
-export const getResourses = (state) => state.itemsReducer.data;
-export const getLoadStatus = (state) => state.itemsReducer.loadStatus;
+export const getResourses = (state) => state.items.data;
+export const getLoadStatus = (state) => state.items.loadStatus;
 
 export const isLoading = (state) =>
   getLoadStatus(state) === LOAD_STATUSES.LOADING;
