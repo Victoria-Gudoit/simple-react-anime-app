@@ -1,0 +1,22 @@
+
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 5px;
+    background-color: rgb(255, 233, 244);
+    border-radius: 5px;
+ 
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+}
+
+.item {
+    margin-bottom: 5px;
+}
+
+.item:hover {
+    background-color: rgb(250, 191, 191);
+  }
