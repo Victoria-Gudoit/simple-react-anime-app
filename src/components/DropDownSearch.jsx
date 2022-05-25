@@ -1,7 +1,7 @@
 import css from "./styless.module.css";
 import { Link } from "react-router-dom";
 
-export const DropDownMenu = (props) => {
+export const DropDownSearch = (props) => {
   return (
     <ul className={css.list}>
       {props.options.map((item) => (

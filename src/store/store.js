@@ -1,11 +1,12 @@
-import { createStore, compose, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { rootReducer } from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import { reducer as animeReducer } from "./slice";
 
-export const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+const rootReducer = combineReducers({
+  anime: animeReducer,
+});
+
+export const store = configureStore({
+  reducer: rootReducer,
+  devTools: true,
+});

@@ -1,7 +1,3 @@
-import css from "./styless.module.css";
-import { Link } from "react-router-dom";
-import {DropDownMenu} from "./DropdownMenu"
-
 export const Input = (props) => {
 
   return (

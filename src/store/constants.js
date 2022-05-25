@@ -4,9 +4,3 @@ export const LOAD_STATUSES = {
   ERROR: "ERROR",
   UNKNOWN: "UNKNOWN",
 };
-
-export const ITEMS_ACTIONS = {
-  fetchStart: "items/fetchStart",
-  fetchSuccess: "items/fetchSuccess",
-  fetchError: "items/fetchError",
-};

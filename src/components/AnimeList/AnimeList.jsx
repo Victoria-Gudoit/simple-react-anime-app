@@ -1,21 +1,21 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ItemsAC, ItemsSelectors } from "../../store";
+import { ItemsSelectors } from "../../store";
 import { debounce } from "lodash";
-import { CardItems } from "./CardItems";
+import { CardAnimeList } from "./CardAnimeList";
 import css from "./styles.module.css";
 import { useParams } from "react-router-dom";
 import { Loader } from "../common";
 import { Input } from "../Input";
-import { getAnime } from "../../api/items";
-import { DropDownMenu } from "../DropdownMenu";
+import { getAnime } from "../../api/anime";
+import { DropDownSearch } from "../DropDownSearch";
+import { fetchTopAnime } from "../../store/slice";
 
 
-export function Items() {
+export function AnimeList() {
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState([])
-  const [dropDownMenu, setDropDownMenu] = useState(false)
-
+  const [dropDownSearch, setDropDownSearch] = useState(false)
 
   const items = useSelector(ItemsSelectors.getResourses);
   const isItemsLoading = useSelector(ItemsSelectors.isLoading);
@@ -25,39 +25,38 @@ export function Items() {
   const dispatch = useDispatch();
   const { type } = useParams();
 
-  const getTopAnime = (type) => dispatch(ItemsAC.fetchTopAnime(type));
+  const getTopAnime = (type) => dispatch(fetchTopAnime(type));
 
   const debouncedItems = useCallback(debounce(( search) => {
     getAnime(search).then((r) => setOptions(r.data.slice(0, 10))
     )
   }, 1000 ))
 
-  console.log(dropDownMenu);
+
   useEffect(() => {
     // debouncedItems.cancel()
     if(search.length > 2) {
       debouncedItems(search)
-      setDropDownMenu(true)
+      setDropDownSearch(true)
     } else {
-      setDropDownMenu(false)
+      setDropDownSearch(false)
     }
 
   }, [search]);
 
-
   useEffect(() => {
-      getTopAnime(type, search)
-  }, [type, search]);
+      getTopAnime(type)
+  }, [type]);
 
   return (
     <div className={css.wrapper}>
       <Input search={search} setSearch={setSearch} />
-      {dropDownMenu && <DropDownMenu options={options}/>}
+      {dropDownSearch && <DropDownSearch options={options}/>}
       {isItemsLoading && <Loader/>}
       {isItemsLoaded && (
         <div className={css.main}>
           {items.map((item) => (
-            <CardItems key={item.mal_id} {...item} />
+            <CardAnimeList key={item.mal_id} {...item} />
           ))}
         </div>
       )}

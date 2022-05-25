@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
 import css from "./item.module.css";
 
-
-
-export const CardItem = (props) => {
+export const CardAnime = (props) => {
 
   const getRenderFooterByType = {
   TV: () => `Episodes: ${props.episodes}`,

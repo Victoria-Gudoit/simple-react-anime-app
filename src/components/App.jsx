@@ -1,7 +1,7 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Header } from "./Header/Header";
-import { Items } from "./Items/Items";
-import { Item } from "./Item/Item";
+import { AnimeList } from "./AnimeList/AnimeList";
+import { Anime } from "./Anime/Anime";
 
 
 export function App() {
@@ -10,10 +10,10 @@ export function App() {
       <Header />
       <Switch>
         <Route path="/:type" exact>
-          <Items />
+          <AnimeList />
         </Route>
         <Route path="/:type/:id" exact>
-          <Item />
+          <Anime />
         </Route>
         <Redirect to="/anime" />
       </Switch>
