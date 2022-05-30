@@ -7,14 +7,14 @@ export const fetchTopAnime = createAsyncThunk(
   async (type) => {
     const result = await getTopAnime(type);
     console.log(result.data.slice(0, 12));
-    return result.data.slice(0, 12);
+    return result.data;
   }
 );
 
 export const { actions, reducer } = createSlice({
   name: "anime",
   initialState: {
-    data: {},
+    data: [],
     loadStatus: LOAD_STATUSES.UNKNOWN,
   },
   extraReducers: (builder) => {

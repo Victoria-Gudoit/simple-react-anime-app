@@ -11,7 +11,6 @@ import { getAnime } from "../../api/anime";
 import { DropDownSearch } from "../DropDownSearch";
 import { fetchTopAnime } from "../../store/slice";
 
-
 export function AnimeList() {
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState([])
@@ -28,7 +27,7 @@ export function AnimeList() {
   const getTopAnime = (type) => dispatch(fetchTopAnime(type));
 
   const debouncedItems = useCallback(debounce(( search) => {
-    getAnime(search).then((r) => setOptions(r.data.slice(0, 10))
+    getAnime(search).then((r) => setOptions(r.data)
     )
   }, 1000 ))
 
@@ -55,9 +54,7 @@ export function AnimeList() {
       {isItemsLoading && <Loader/>}
       {isItemsLoaded && (
         <div className={css.main}>
-          {items.map((item) => (
-            <CardAnimeList key={item.mal_id} {...item} />
-          ))}
+            <CardAnimeList items={items}/>
         </div>
       )}
       {isItemsError && <span>oops</span>}
