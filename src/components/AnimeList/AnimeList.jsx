@@ -50,11 +50,11 @@ export function AnimeList() {
   return (
     <div className={css.wrapper}>
       <Input search={search} setSearch={setSearch} />
-      {dropDownSearch && <DropDownSearch options={options}/>}
-      {isItemsLoading && <Loader/>}
+      {dropDownSearch && <DropDownSearch options={options}/>} 
+      {isItemsLoading && <Loader/>}  
       {isItemsLoaded && (
         <div className={css.main}>
-            <CardAnimeList items={items}/>
+            <CardAnimeList items={items}/> {/* если items передаю так, то всё работает кроме нажатия на саму карточку,  если делаю map, то работает нажатие, но пагинация тогда под каждой карточкой (*/}
         </div>
       )}
       {isItemsError && <span>oops</span>}
