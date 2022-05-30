@@ -7,7 +7,7 @@ export const fetchTopAnime = createAsyncThunk(
   async (type) => {
     const result = await getTopAnime(type);
     console.log(result.data.slice(0, 12));
-    return result.data;
+    return result;
   }
 );
 

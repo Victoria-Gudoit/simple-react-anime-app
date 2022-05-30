@@ -2,70 +2,78 @@ import { Link, useParams } from "react-router-dom";
 import css from "./styles.module.css";
 import { Table, Typography } from "antd";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTopAnime } from "../../store/slice";
+import { useEffect } from "react";
+import { ItemsSelectors } from "../../store";
 
 const { Title } = Typography;
 
-export const CardAnimeList = (props) => {
-  const [data, setData] = useState({
+export const CardAnimeList = () => {
+  const [filters, setFilters] = useState({
     page: 1,
     limit: 10,
   });
 
+  const dispatch = useDispatch();
+
+  const items = useSelector(ItemsSelectors.getResourses);
+
+  const getTopAnime = (type, filters) => dispatch(fetchTopAnime(type, filters));
+
   const { type } = useParams();
 
-  const getRenderFooterByType = {
-    characters: () => props.items?.name,
-    reviews: () => props.items.entry?.title,
-    manga: () => props.items?.title,
-    anime: () => props.items?.title,
-  };
-
-  const renderFooter = getRenderFooterByType[type];
+  useEffect(() => {
+    getTopAnime(type, filters)
+  }, [type, filters]);
 
   const COLUMNS = [
     {
       title: "image",
       dataIndex: "images",
       key: "id",
-      render: (images) => <img src={images.jpg.image_url} alt="top" />,
+      render: (images, e) => (
+        <img
+          src={
+            e.images?.jpg.image_url
+              ? images?.jpg.image_url
+              : e.entry.images?.jpg.image_url
+          }/>
+      ),
     },
     {
       title: "title",
       dataIndex: "title",
       key: "title",
-      render: (
-        title,
-        type,
-        mal_id //не понимаю как передать тип и айди в линк и как передать тогда renderFooter
-      ) => (
-        <Link className={css.link} to={`/${type}/${mal_id}`}>
-          <Title code className={css.title}> 
-            {title}  
+      render: (title, e) => (
+        <Link to={`/${e.type}/${e.mal_id}`}>
+          {console.log(e)}
+          <Title code className={css.title}>
+            {e.title ? e.title : e.entry?.title ? e.entry?.title : e?.name}
           </Title>
-        </Link>
-      ),
-    },
-  ];
+        </Link>),
+        },
+        ];
 
   const changeHandler = (page, limit) => {
-    setData({ page, limit });
+    setFilters(page, limit);
   };
 
-  if (!renderFooter) {
+  if (!items) {
     return <div>Упс, штосьцi пайшло не так</div>;
   }
 
   return (
-    <div className={css.review}>
+    <>
       <Table
-        dataSource={props.items}
+        dataSource={items.data}
         columns={COLUMNS}
         pagination={{
-          pageSize: data.limit,
-          current: data.page,
+          pageSize: filters.limit,
+          current: filters.page,
           onChange: changeHandler,
         }}
       />
-    </div>
+    </>
   );
 };

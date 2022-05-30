@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback} from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ItemsSelectors } from "../../store";
 import { debounce } from "lodash";
 import { CardAnimeList } from "./CardAnimeList";
@@ -9,22 +9,15 @@ import { Loader } from "../common";
 import { Input } from "../Input";
 import { getAnime } from "../../api/anime";
 import { DropDownSearch } from "../DropDownSearch";
-import { fetchTopAnime } from "../../store/slice";
+
 
 export function AnimeList() {
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState([])
   const [dropDownSearch, setDropDownSearch] = useState(false)
 
-  const items = useSelector(ItemsSelectors.getResourses);
   const isItemsLoading = useSelector(ItemsSelectors.isLoading);
   const isItemsError = useSelector(ItemsSelectors.isError);
-  const isItemsLoaded = useSelector(ItemsSelectors.isLoaded);
-
-  const dispatch = useDispatch();
-  const { type } = useParams();
-
-  const getTopAnime = (type) => dispatch(fetchTopAnime(type));
 
   const debouncedItems = useCallback(debounce(( search) => {
     getAnime(search).then((r) => setOptions(r.data)
@@ -43,20 +36,13 @@ export function AnimeList() {
 
   }, [search]);
 
-  useEffect(() => {
-      getTopAnime(type)
-  }, [type]);
-
+ 
   return (
     <div className={css.wrapper}>
       <Input search={search} setSearch={setSearch} />
       {dropDownSearch && <DropDownSearch options={options}/>} 
-      {isItemsLoading && <Loader/>}  
-      {isItemsLoaded && (
-        <div className={css.main}>
-            <CardAnimeList items={items}/> {/* если items передаю так, то всё работает кроме нажатия на саму карточку,  если делаю map, то работает нажатие, но пагинация тогда под каждой карточкой (*/}
-        </div>
-      )}
+      {isItemsLoading && <Loader/>} 
+      <CardAnimeList/>     
       {isItemsError && <span>oops</span>}
     </div>
   );

@@ -8,6 +8,7 @@ export const CardAnime = (props) => {
   OVA: () => `Episodes: ${props.episodes}`,
   Manga: () => `Episodes: ${props.chapters}`,
   anime: () => `Episodes: ${props.episodes}`,
+  Movie: () => `Episodes: ${props.episodes}`,
 };
 
 const { type } = useParams();
